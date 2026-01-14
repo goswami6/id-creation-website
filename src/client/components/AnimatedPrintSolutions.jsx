@@ -108,8 +108,13 @@ const ProductCard = ({ item, index, scrollYProgress, shutterVariant }) => {
 
   // Parallax movement - reduced for mobile to ensure it doesn't stay off-screen
   const yMove = useTransform(
+<<<<<<< HEAD
     scrollYProgress,
     [0, 1],
+=======
+    scrollYProgress, 
+    [0, 1], 
+>>>>>>> f605513ee81efe2449f87c2ad3ee6b1b7450a46a
     [0, isMobile ? 0 : (index % 2 === 0 ? -60 : 60)]
   );
 
@@ -125,6 +130,7 @@ const ProductCard = ({ item, index, scrollYProgress, shutterVariant }) => {
       className="relative group cursor-pointer w-full"
     >
       <div className="relative rounded-[2rem] overflow-hidden aspect-[3/4] bg-gray-100 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] transition-transform duration-700">
+<<<<<<< HEAD
         <motion.img
           // Disable heavy hover scaling on mobile to save GPU
           whileHover={isMobile ? {} : { scale: 1.08 }}
@@ -137,6 +143,20 @@ const ProductCard = ({ item, index, scrollYProgress, shutterVariant }) => {
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-brand-black/90 opacity-90 md:opacity-80 md:group-hover:opacity-100 transition-opacity duration-500" />
 
+=======
+        <motion.img 
+          // Disable heavy hover scaling on mobile to save GPU
+          whileHover={isMobile ? {} : { scale: 1.08 }} 
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }} 
+          src={item.image} 
+          alt={item.name} 
+          className="w-full h-full object-cover" 
+        />
+        
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-brand-black/90 opacity-90 md:opacity-80 md:group-hover:opacity-100 transition-opacity duration-500" />
+        
+>>>>>>> f605513ee81efe2449f87c2ad3ee6b1b7450a46a
         {/* Content - Adjusted for mobile visibility */}
         <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8 translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-500">
           <p className="text-brand-orange text-[9px] font-black uppercase tracking-[0.3em] mb-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
@@ -145,9 +165,15 @@ const ProductCard = ({ item, index, scrollYProgress, shutterVariant }) => {
           <h4 className="text-lg md:text-xl font-bold text-white leading-tight mb-4 md:mb-6">
             {item.name}
           </h4>
+<<<<<<< HEAD
 
           <Link to={`/contact`} className="flex items-center gap-3 text-white text-[10px] font-black uppercase tracking-widest">
             Explore <ArrowRight size={14} className="text-brand-orange" />
+=======
+          
+          <Link to={`/contact`} className="flex items-center gap-3 text-white text-[10px] font-black uppercase tracking-widest">
+             Explore <ArrowRight size={14} className="text-brand-orange" />
+>>>>>>> f605513ee81efe2449f87c2ad3ee6b1b7450a46a
           </Link>
         </div>
       </div>
