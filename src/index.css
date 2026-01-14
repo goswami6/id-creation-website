@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@theme {
+  /* Primary Brand Colors */
+  --color-brand-orange: #FF6600;
+  --color-brand-orange-light: #FF8533;
+  /* Hover effect ke liye */
+  --color-brand-orange-soft: #FFF5ED;
+  /* Background highlights ke liye */
+
+  --color-brand-black: #1A1A1A;
+  --color-brand-black-muted: #333333;
+
+  /* Neutral Colors for UI */
+  --color-ui-bg: #F9FAFB;
+  --color-ui-card: #FFFFFF;
+  --color-ui-text: #374151;
+  --color-ui-border: #E5E7EB;
+
+  /* Font Families */
+  --font-heading: "Montserrat", sans-serif;
+  --font-body: "Open Sans", sans-serif;
+}
+
+/* Global Application */
+body {
+  background-color: var(--color-ui-bg);
+  color: var(--color-ui-text);
+  font-family: var(--font-body);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+
+  font-weight: 700;
+}
