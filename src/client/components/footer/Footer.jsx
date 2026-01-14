@@ -58,11 +58,14 @@ const Footer = () => {
 
           {/* Brand Identity */}
           <div className="lg:col-span-4 space-y-8 text-center sm:text-left">
-            <div className="flex items-center justify-center sm:justify-start gap-2">
-              <div className="w-10 h-10 bg-brand-black rounded-xl flex items-center justify-center">
-                <span className="text-brand-orange font-black text-xl">P</span>
-              </div>
-              <span className="text-2xl font-black text-brand-black tracking-tighter uppercase">Print<span className="text-brand-orange">Me</span></span>
+            <div className="flex items-center justify-center sm:justify-start gap-2"> <img
+                  src="/logo.jpg"   // apna logo path
+                  alt="Shivam Creation"
+                  className="w-25 h-15 object-contain"
+                />
+              {/* <div className="w-10 h-10 bg-brand-black rounded-xl flex items-center justify-center overflow-hidden">
+               
+              </div>  */}
             </div>
             <p className="text-gray-500 leading-relaxed text-sm max-w-sm mx-auto sm:mx-0">
               Precision-engineered hardware and premium digital printing solutions. We help industries scale through high-quality tools and identity branding since 1998.

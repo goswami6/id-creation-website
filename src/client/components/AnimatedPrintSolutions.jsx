@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { ArrowRight, ShieldCheck, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -96,37 +96,67 @@ const AnimatedPrintSolutions = () => {
 };
 
 const ProductCard = ({ item, index, scrollYProgress, shutterVariant }) => {
-  const yMove = useTransform(scrollYProgress, [0, 1], [0, index % 2 === 0 ? -60 : 60]);
+  // We disable the parallax yMove on mobile (width < 768px) to prevent layout lag
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Parallax movement - reduced for mobile to ensure it doesn't stay off-screen
+  const yMove = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [0, isMobile ? 0 : (index % 2 === 0 ? -60 : 60)]
+  );
 
   return (
     <motion.div
       style={{ y: yMove }}
-      custom={index} // Used for stagger delay
+      custom={index}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-50px" }}
-      variants={shutterVariant} // --- ADDED: Shutter Reveal to Card ---
-      className="relative group cursor-pointer"
+      // FIX: Changed margin to "0px" for mobile so it triggers as soon as it enters view
+      viewport={{ once: true, margin: isMobile ? "0px" : "-50px" }}
+      variants={shutterVariant}
+      className="relative group cursor-pointer w-full"
     >
-      <div className="relative rounded-[2rem] overflow-hidden aspect-[3/4] bg-gray-100 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] transition-transform duration-700 group-hover:shadow-[0_40px_80px_-20px_rgba(255,102,0,0.15)]">
-        <motion.img whileHover={{ scale: 1.08 }} transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }} src={item.image} alt={item.name} className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-brand-black/90 opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
-        <div className="absolute top-6 left-6 flex items-center gap-2">
-          <span className="bg-white/10 backdrop-blur-md border border-white/20 text-white text-[9px] font-black px-3 py-1.5 rounded-lg uppercase tracking-widest">{item.tag}</span>
-        </div>
-        <div className="absolute inset-0 flex flex-col justify-end p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-          <p className="text-brand-orange text-[9px] font-black uppercase tracking-[0.3em] mb-2 opacity-0 group-hover:opacity-100 transition-opacity delay-100">{item.category}</p>
-          <h4 className="text-xl font-bold text-white leading-tight mb-6">{item.name}</h4>
-          <motion.d whileHover={{ x: 5 }} className="flex items-center gap-3 text-white/60 text-[10px] font-black uppercase tracking-widest group-hover:text-white transition-colors">
-            <Link to={`/contact`} className="flex items-center gap-3">
-              Explore <ArrowRight size={14} className="text-brand-orange" />
-            </Link>
-          </motion.d>
+      <div className="relative rounded-[2rem] overflow-hidden aspect-[3/4] bg-gray-100 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] transition-transform duration-700">
+        <motion.img
+          // Disable heavy hover scaling on mobile to save GPU
+          whileHover={isMobile ? {} : { scale: 1.08 }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          src={item.image}
+          alt={item.name}
+          className="w-full h-full object-cover"
+        />
+
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-brand-black/90 opacity-90 md:opacity-80 md:group-hover:opacity-100 transition-opacity duration-500" />
+
+        {/* Content - Adjusted for mobile visibility */}
+        <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8 translate-y-0 md:translate-y-4 md:group-hover:translate-y-0 transition-transform duration-500">
+          <p className="text-brand-orange text-[9px] font-black uppercase tracking-[0.3em] mb-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
+            {item.category}
+          </p>
+          <h4 className="text-lg md:text-xl font-bold text-white leading-tight mb-4 md:mb-6">
+            {item.name}
+          </h4>
+
+          <Link to={`/contact`} className="flex items-center gap-3 text-white text-[10px] font-black uppercase tracking-widest">
+            Explore <ArrowRight size={14} className="text-brand-orange" />
+          </Link>
         </div>
       </div>
 
-      <div className="mt-6 flex items-center justify-between px-2">
-        <span className="text-gray-200 font-black text-4xl italic group-hover:text-brand-orange/20 transition-colors">0{index + 1}</span>
+      {/* Counter Label */}
+      <div className="mt-4 md:mt-6 flex items-center justify-between px-2">
+        <span className="text-gray-200 font-black text-3xl md:text-4xl italic group-hover:text-brand-orange/20 transition-colors">
+          0{index + 1}
+        </span>
         <div className="w-8 h-[1px] bg-gray-100 group-hover:w-16 group-hover:bg-brand-orange transition-all duration-500" />
       </div>
     </motion.div>
